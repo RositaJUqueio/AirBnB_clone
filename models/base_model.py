@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Authors: Rosita J Uqueio & Joseph Dada
+# Authors: Rosita J Uqueio & Ridwan Dada
 
 import uuid
 from datetime import datetime
