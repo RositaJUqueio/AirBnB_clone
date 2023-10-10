@@ -4,7 +4,7 @@ from models.base_model import BaseModel
 
 
 class Amenity(BaseModel):
-    """Representz an amenity class.
+    """Represents the amenity class.
 
     Attributes:
         name: Name of the amenity.
