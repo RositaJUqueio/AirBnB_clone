@@ -3,9 +3,12 @@
 
 import uuid
 from datetime import datetime
+from models.engine.file_storage import FileStorage
 
 
 """Defines a BaseModel class"""
+
+
 class BaseModel:
     """
     BaseModel that defines all common attributes/methods for other classes:
@@ -18,17 +21,17 @@ class BaseModel:
         """ checking if kwargs is empty or not """
         if kwargs:
             """ if it not empty iterate the key-value" pairs in kwargs"""
-            for key, value in kwargs.items():
+            for key, val in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
                     """
                     converting the created_at and updated_at strings to
                     datetime objects
                     """
-                    setattr(self, key, datetime.strptime(value,\
-                                                         "%Y-%m-%dT%H:%M:%S.%f"))
+                    setattr(self, key,
+                            datetime.strptime(val, "%Y-%m-%dT%H:%M:%S.%f"))
                 elif key != '__class__':
                     """skipping '__class__' from kwargs"""
-                    setattr(self, key, value)
+                    setattr(self, key, val)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
@@ -36,11 +39,13 @@ class BaseModel:
 
     def __str__(self):
         """Returns a string representation of the object"""
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id,
+                                     self.__dict__)
 
     def save(self):
         """Updates the updated_at attribute with current datetime"""
         self.updated_at = datetime.now()
+        FileStorage().save()
 
     def to_dict(self):
         """
@@ -52,4 +57,4 @@ class BaseModel:
         dict_obj['created_at'] = self.created_at.isoformat()
         dict_obj['updated_at'] = self.updated_at.isoformat()
         return dict_obj
-    
+   
