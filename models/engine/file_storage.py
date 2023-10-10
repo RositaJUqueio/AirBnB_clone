@@ -3,6 +3,9 @@
 
 import json
 import os
+from models.base_model import BaseModel
+from models.user import User
+import sys
 
 """ a class filestorage """
 class FileStorage:
@@ -31,8 +34,8 @@ def new(self, obj):
 def save(self):
     """Serialization of objects to json file. the path: __file_path"""
     data = {}
-    for key, val in FileStorage.__objects.items():
-        data[key] = val.to_dict()
+    for key in FileStorage.__objects:
+        data[key] = FileStorage.__objects[key].to_dict()
 
     """Writting the serialization data to json file"""
     with open(FileStorage.__file_path, 'w') as f:
@@ -45,10 +48,10 @@ def reload(self):
     (__file_path) exits; otherwise do nothing
      If the file doesnt exist, no exception should be raised
     """
-    if os.path.exists(FileStorage.__file_path):
-        try:
-            with open(FileStorage.__file_path, 'r') as f:
-                data = json.load(f)
-                FileStorage.__objects = data
-        except FileNotFoundError:
-            pass
+    if os.path.isfile(self.__file_path):
+        with open(self.__file_path, "r") as f:
+            my_data = json.load(f)
+                for key, value in my_data.items():
+                    name = sys.modules[__name__]
+                    my_class = getattr(name, value['__class__'])
+                    self.__objects[key] = my_class(**value)
