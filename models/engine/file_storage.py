@@ -3,11 +3,9 @@
 
 import json
 import os
-from models.base_model import BaseModel
-from models.user import User
 import sys
 
-""" a class filestorage """
+
 class FileStorage:
     """
       setting it to a private class attribute
@@ -51,7 +49,10 @@ def reload(self):
     if os.path.isfile(self.__file_path):
         with open(self.__file_path, "r") as f:
             my_data = json.load(f)
-                for key, value in my_data.items():
-                    name = sys.modules[__name__]
-                    my_class = getattr(name, value['__class__'])
-                    self.__objects[key] = my_class(**value)
+            for key, value in my_data.items():
+                 #Import BaseModel class here if you need it
+                from models.base_model import BaseModel
+                my_class = BaseModel  # Change to the appropriate class
+                #name = sys.modules[__name__]
+                #my_class = getattr(name, value['__class__'])
+                self.__objects[key] = my_class(**value)
