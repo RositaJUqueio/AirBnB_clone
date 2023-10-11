@@ -49,7 +49,7 @@ def reload(self):
     if os.path.isfile(self.__file_path):
         with open(self.__file_path, "r") as f:
             my_data = json.load(f)
-                for key, value in my_data.items():
-                    name = sys.modules[__name__]
-                    my_class = getattr(name, value['__class__'])
-                    self.__objects[key] = my_class(**value)
+            for key, value in my_data.items():
+                name = sys.modules[__name__]
+                my_class = getattr(name, value['__class__'])
+                self.__objects[key] = my_class(**value)
