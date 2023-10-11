@@ -1,33 +1,33 @@
 #!/usr/bin/python3
-""" file storage module """
+"""File storage module"""
 
 import json
 import os
+from models.base_model import BaseModel
+from models.user import User
 import sys
 
-
+""" a class filestorage """
 class FileStorage:
     """
       setting it to a private class attribute
       the path to json file and 
       dictionary to store all objects
     """
-    __file_path = "file.json" 
+
+    __file_path = "file.json"
     __objects = {}
 
+    def all(self):
+        """
+        A public instance method that returns the dictionary object
+        """
+        return FileStorage.__objects
 
-def all(self):
-    """
-    a public instance method that returns the dictionary object
-    """
-    return FileStorage.__objects
-
-
-def new(self, obj):
-    """a public instances that set object with key"""
-    key = "{}.{}".format(obj.__class__name__, obj.id)
-    FileStorage.__objests[key] = obj
-
+    def new(self, obj):
+        """A public instance method that sets an object with a key"""
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        FileStorage.__objects[key] = obj
 
 def save(self):
     """Serialization of objects to json file. the path: __file_path"""
@@ -49,10 +49,7 @@ def reload(self):
     if os.path.isfile(self.__file_path):
         with open(self.__file_path, "r") as f:
             my_data = json.load(f)
-            for key, value in my_data.items():
-                 #Import BaseModel class here if you need it
-                from models.base_model import BaseModel
-                my_class = BaseModel  # Change to the appropriate class
-                #name = sys.modules[__name__]
-                #my_class = getattr(name, value['__class__'])
-                self.__objects[key] = my_class(**value)
+                for key, value in my_data.items():
+                    name = sys.modules[__name__]
+                    my_class = getattr(name, value['__class__'])
+                    self.__objects[key] = my_class(**value)
