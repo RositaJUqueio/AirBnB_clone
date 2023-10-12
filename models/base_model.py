@@ -2,10 +2,8 @@
 # Authors: Rosita J Uqueio & Ridwan Dada
 
 import uuid
+import json
 from datetime import datetime
-from models.__init__ import storage
-from models import storage
-
 
 """Defines a BaseModel class"""
 
@@ -44,6 +42,7 @@ class BaseModel:
                                      self.__dict__)
 
     def save(self):
+        from models import storage
         """Updates the updated_at attribute with current datetime"""
         self.updated_at = datetime.now()
         storage.save()

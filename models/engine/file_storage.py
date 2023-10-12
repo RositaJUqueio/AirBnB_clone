@@ -4,8 +4,6 @@
 import json
 import os
 from models.base_model import BaseModel
-from models.user import User
-import sys
 
 """ a class filestorage """
 class FileStorage:
@@ -30,6 +28,7 @@ class FileStorage:
         FileStorage.__objects[key] = obj
 
 def save(self):
+    from models import storage  
     """Serialization of objects to json file. the path: __file_path"""
     data = {}
     for key in FileStorage.__objects:
@@ -41,15 +40,10 @@ def save(self):
         
 
 def reload(self):
-    """
-    Deserializing the json file to __objects if the json file
-    (__file_path) exits; otherwise do nothing
-     If the file doesnt exist, no exception should be raised
-    """
+    """Deserialization of the json file"""
     if os.path.isfile(self.__file_path):
         with open(self.__file_path, "r") as f:
             my_data = json.load(f)
             for key, value in my_data.items():
-                name = sys.modules[__name__]
-                my_class = getattr(name, value['__class__'])
+                my_class = BaseModel
                 self.__objects[key] = my_class(**value)
