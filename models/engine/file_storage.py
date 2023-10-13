@@ -4,6 +4,11 @@
 import json
 import os
 from models.base_model import BaseModel
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 """ a class filestorage """
 class FileStorage:
@@ -45,5 +50,17 @@ class FileStorage:
             with open(self.__file_path, "r") as f:
                 my_data = json.load(f)
                 for key, value in my_data.items():
-                    my_class = BaseModel
+                    class_name = key.split('.')[0]
+                    if class_name == 'Place':
+                        my_class = Place
+                    elif class_name == 'state':
+                        my_class = State
+                    elif class_name == 'City':
+                        my_class = City
+                    elif class_name == 'Amenity':
+                        my_class = Amenity
+                    elif class_name == 'Review':
+                        my_class = Review
+                    else:
+                        my_class = BaseModel
                     self.__objects[key] = my_class(**value)
