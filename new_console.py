@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             new_instance = eval(args[0])()
             new_instance.save()
-            print(new_instance.id)  
+            print(new_instance.id)
 
     def do_show(self, arg):
         """
@@ -166,6 +166,7 @@ class HBNBCommand(cmd.Cmd):
         atr_value = args[3]
         setattr(instance, atr_name, atr_value)
         instance.save()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
