@@ -51,6 +51,7 @@ class FileStorage:
                 my_data = json.load(f)
                 for key, value in my_data.items():
                     class_name = key.split('.')[0]
+                    """Returning the classes """
                     if class_name == 'Place':
                         my_class = Place
                     elif class_name == 'state':
