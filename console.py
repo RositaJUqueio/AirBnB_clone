@@ -15,7 +15,7 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
-    """HBnBCommand class: Defines the command-line interpreter for HBnB.
+    """HBnBCommand class Defines the command-line interpreter for HBnB.
 
     Attributes:
         prompt (str): The command prompt.
@@ -166,7 +166,33 @@ class HBNBCommand(cmd.Cmd):
         atr_value = args[3]
         setattr(instance, atr_name, atr_value)
         instance.save()
-
+        
+    def do_count(self, arg):
+        """
+        Counts the number of instances of a specified class.
+        Usage:
+           counts instances of a specific class: count <class_name>
+           counts instances of the class from an instance: <class_name>.count()
+        """
+        
+        args = arg.split()
+        """Checking if a class name is provided"""
+        if not args:
+            print("Missing class name")
+            return
+        
+        class_name = args[0]
+        if class_name not in self.__models:
+            print(f"Class '{class_name}' doesn't exist.")
+            return
+        
+        count = 0
+        objects_dict = models.storage.all()
+        
+        for key, value in objects_dict.items():
+            if value.__class__.__name__ == class_name:
+                count += 1
+        print(f"{count}")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
