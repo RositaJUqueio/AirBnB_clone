@@ -14,11 +14,11 @@ from models.place import Place
 from models.review import Review
 
 
-class HBNBCommand(cmd.Cmd):
-    """HBnBCommand class Defines the command-line interpreter for HBnB.
+class HBNBComand(cmd.Cmd):
+    """HBnBComnd class Defines the comand-line interpreter for HBnB.
 
     Attributes:
-        prompt (str): The command prompt.
+        prompt (str): The comnd prompt.
         __models (set): defines a set of valid model class names.
     """
 
@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
     }
 
     def do_quit(self, arg):
-        """Quit command to exit the program\n"""
+        """Quit comnd to exit the program\n"""
         return True
 
     def do_EOF(self, arg):
@@ -49,13 +49,13 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """
         Instantiates a new object of BaseModel & stores it in the JSON file.
-         then prints the ID of the new instance
-         """
+        then prints the ID of the new instance
+        """
         args = arg.split()
 
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__models:
+        elif args[0] not in HBNBComand.__models:
             print("** class doesn't exist **")
         else:
             new_instance = eval(args[0])()
@@ -64,15 +64,15 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-        Displays string representation of a class instance
-        based on class name and id.
-        then prints the string representation of the specified instance
+        Displays string representation of class instance
+        based on the class name and id.
+        Then prints the string representation of the specified instance
         """
         args = arg.split()
 
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__models:
+        elif args[0] not in HBNBComand.__models:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -113,7 +113,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBCommand.__models:
+        elif args[0] not in HBNBComand.__models:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -166,7 +166,7 @@ class HBNBCommand(cmd.Cmd):
         atr_value = args[3]
         setattr(instance, atr_name, atr_value)
         instance.save()
-        
+
     def do_count(self, arg):
         """
         Counts the number of instances of a specified class.
@@ -174,25 +174,63 @@ class HBNBCommand(cmd.Cmd):
            counts instances of a specific class: count <class_name>
            counts instances of the class from an instance: <class_name>.count()
         """
-        
+
         args = arg.split()
         """Checking if a class name is provided"""
-        if not args:
+        if len(args) == 0:
             print("Missing class name")
             return
-        
+
         class_name = args[0]
         if class_name not in self.__models:
-            print(f"Class '{class_name}' doesn't exist.")
+            print("Class doesn't exist")
             return
-        
+
         count = 0
-        objects_dict = models.storage.all()
-        
-        for key, value in objects_dict.items():
+        objcts_dict = models.storage.all()
+
+        for key, value in objcts_dict.items():
             if value.__class__.__name__ == class_name:
                 count += 1
-        print(f"{count}")
+        print(count)
+
+    def precmd(self, user_input):
+        """
+        Preprocesses the user's comnd line input for execution.
+        Args:
+           user_input (str): The original user input.
+        Returns:
+           str: The preprocessed comnd line.
+        """
+        comand_parts = user_input.split('.', 1)
+        if len(comand_parts) == 2:
+            comnd = comand_parts[0]
+            argument_str = comand_parts[1]
+
+            arg_parts = argument_str.split('(', 1)
+            cmd = arg_parts[0]
+
+            newln = cmd + " " + comnd
+
+            if len(arg_parts) == 2:
+                args = arg_parts[1].split(')', 1)
+                args = args[0].split(",")
+
+                a_id = args[0].strip()
+                newln = cmd + " " + comnd + " " + a_id
+
+                if len(args) > 1:
+                    other_args = args[1:]
+                    conctd_args = ""
+                    for arg in other_args:
+                        conctd_args += arg
+                    conctd_args = conctd_args.replace("\"", "").strip()
+
+                    newln = cmd + " " + comnd + " " + a_id + " " + conctd_args
+
+            return newln
+        return user_input
+
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+    HBNBComand().cmdloop()
