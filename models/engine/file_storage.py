@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""File storage module"""
+"""The File storage module"""
 
 import json
 import os
@@ -11,10 +11,12 @@ from models.amenity import Amenity
 from models.review import Review
 
 """ a class filestorage """
+
+
 class FileStorage:
     """
       setting it to a private class attribute
-      the path to json file and 
+      the path to json file and
       dictionary to store all objects
     """
 
@@ -33,7 +35,7 @@ class FileStorage:
         FileStorage.__objects[key] = obj
 
     def save(self):
-        from models import storage  
+        from models import storage
         """Serialization of objects to json file. the path: __file_path"""
         data = {}
         for key in FileStorage.__objects:
@@ -42,7 +44,6 @@ class FileStorage:
         """Writting the serialization data to json file"""
         with open(FileStorage.__file_path, 'w') as f:
             json.dump(data, f)
-        
 
     def reload(self):
         """Deserialization of the json file"""
