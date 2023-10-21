@@ -14,7 +14,7 @@ from models.place import Place
 from models.review import Review
 
 
-class HBNBComand(cmd.Cmd):
+class HBNBCommand(cmd.Cmd):
     """HBnBComnd class Defines the comand-line interpreter for HBnB.
 
     Attributes:
@@ -55,7 +55,7 @@ class HBNBComand(cmd.Cmd):
 
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBComand.__models:
+        elif args[0] not in HBNBCommand.__models:
             print("** class doesn't exist **")
         else:
             new_instance = eval(args[0])()
@@ -72,7 +72,7 @@ class HBNBComand(cmd.Cmd):
 
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBComand.__models:
+        elif args[0] not in HBNBCommand.__models:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -113,7 +113,7 @@ class HBNBComand(cmd.Cmd):
 
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in HBNBComand.__models:
+        elif args[0] not in HBNBCommand.__models:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -233,4 +233,4 @@ class HBNBComand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    HBNBComand().cmdloop()
+    HBNBCommand().cmdloop()
