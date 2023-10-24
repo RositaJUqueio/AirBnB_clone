@@ -1,6 +1,18 @@
 header {
-    background: white url('../images/logo.png') 20px center no-repeat;
+    background-color: white;
     height: 70px;
     width: 100%;
+    background-size: contain;
     border-bottom: solid 1px #CCCCCC;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    justify-content: space-between;
+}
+
+header .logo {
+    width: 142px;
+    height: 60px;
+    padding-left: 20px;
+    background: url('../images/logo.png') center no-repeat;
 }
